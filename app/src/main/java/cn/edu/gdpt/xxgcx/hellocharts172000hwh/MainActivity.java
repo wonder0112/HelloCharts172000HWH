@@ -1,5 +1,6 @@
 package cn.edu.gdpt.xxgcx.hellocharts172000hwh;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,13 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.view.LineChartView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +30,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         initTablayout();
+        initLineChart();
+    }
+
+    private void initLineChart() {/*折线图*/
+        LineChartView lineChartView = lineView.findViewById(R.id.lcv_main_temperature);/*初始化控件*/
+        /*1、X和Y轴坐标刻度*/
+        String[] lineData = {"周一","周二","周三","周四","周五","周六","周日"};
+        List<AxisValue> axisXValues = new ArrayList<>();/*用集合类对象存储X轴刻度字符*/
+        for (int i=0;i<lineData.length;i++) {
+            axisXValues.add( new AxisValue(i).setLabel(lineData[i]));
+        }
+        Axis axisX = new Axis();
+        axisX.setValues(axisXValues);
+        Axis axisY = new Axis();/*Y轴不指定刻度字符*/
+        /*2、点和线*/
+        int[] temperature={23,17,36,10,24,20,15};
+        List<PointValue> pintValues = new ArrayList<>();/*用集合类对象存点值*/
+        for (int i=0;i<temperature.length;i++) {
+            pintValues.add(new PointValue(i,temperature[i]));
+        }
+        Line line = new Line();/*单条线*/
+        line.setValues(pintValues);
+        List<Line> lines = new ArrayList<>();/*集合类对象存储线条*/
+        lines.add(line);
+        /*3、折线图数据对象*/
+        LineChartData lineChartData = new LineChartData();
+        lineChartData.setAxisXBottom(axisX);/*X轴*/
+        lineChartData.setAxisYLeft(axisY);/*Y轴*/
+        lineChartData.setLines(lines);/*线条*/
+        /*4、数据对象赋给折线图控件，并显示*/
+        lineChartView.setLineChartData(lineChartData);
+        lineChartView.setVisibility(View.VISIBLE);
     }
 
     private void initTablayout() {/*二、实现选项卡和手势滑动效果*/
