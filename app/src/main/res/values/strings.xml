@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HelloCharts172000HWH</string>
+    <string name="line_msg">一周的温度情况，具体如下图所示</string>
+    <string name="pie_msg">2017年互联网教育细分领域投资情况，具体如下图所示</string>
+    <string name="column_msg">现阶段，我国互联网教育市场增长率位居全行业第三，2015年市场规模到1610亿
+    ，预计2018年，将突破2800亿。2013 - 2017 年互联网教育市场规模具体如下图所示。</string>
 </resources>
