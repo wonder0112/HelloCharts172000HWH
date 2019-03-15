@@ -11,12 +11,16 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.LineChartView;
+import lecho.lib.hellocharts.view.PieChartView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +35,41 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initTablayout();
         initLineChart();
+        initPieChart();
+    }
+
+    private void initPieChart() {/*饼状图 */
+        PieChartView pieChartView = pieView.findViewById(R.id.pcv_main_edu);/*初始化控件*/
+        /*1、切片的数值和颜色定义*/
+        int[] pieData = {8, 24, 35, 23, 10};
+        int[] color={Color.parseColor("#0f0f0f"),Color.parseColor("#0fff0f"),
+                Color.parseColor("#0f0fff"),Color.parseColor("#0f000f"),
+                Color.parseColor("#ff0f0f"),};
+        List<SliceValue> sliceValues = new ArrayList<>();/*用集合类对象存储切片数值和颜色*/
+        for (int i=0;i<pieData.length;i++) {
+            SliceValue sliceValue=new SliceValue(pieData[i],color[i]);
+            sliceValues.add(sliceValue);
+        }
+        /*2、饼状图数据对象定义*/
+        final PieChartData pieChartData = new PieChartData();
+        pieChartData.setValues(sliceValues);
+        pieChartData.setHasLabels(true);
+        pieChartData.setHasCenterCircle(true);
+        pieChartData.setCenterText1("数据");
+        /*3、将数据对象赋值给控件*/
+        pieChartView.setPieChartData(pieChartData);
+        /*给控件添加点击触发监听器*/
+        pieChartView.setOnValueTouchListener(new PieChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int i, SliceValue sliceValue) {
+                String[] stateChar = {"高等教育","职业教育","语言教育","K12教育","其他",};
+                pieChartData.setCenterText1(stateChar[i]);
+            }
+            @Override
+            public void onValueDeselected() {
+
+            }
+        });
     }
 
     private void initLineChart() {/*折线图*/
